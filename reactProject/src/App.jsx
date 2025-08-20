@@ -12,6 +12,7 @@ import ViewCard from "./components/ViewCard";
 import UserHome from "./components/UserHome";
 import UserList from "./components/UserList";
 import UserAbout from "./components/UserAbout";
+import Write from "./pages/Write";
 
 function App() {
    return (
@@ -31,6 +32,7 @@ function App() {
 
                <Route path={"/signup"} element={<SignUp />} />
                <Route path={"/login"} element={<Login />} />
+               <Route path={"/write"} element={<Write />} />
                <Route path={"/ourstory"} element={<OurStory />} />
             </Routes>
          </div>

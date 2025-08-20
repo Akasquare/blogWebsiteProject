@@ -41,7 +41,6 @@ const Header = () => {
       setUser(null);
       window.location.href = "/";
    };
- console.log(user)
    return (
       <>
          <div style={headerStyle}>
@@ -50,7 +49,7 @@ const Header = () => {
             </h2>
             <div className="flex gap-x-5 text-sm items-center">
                <Link to={"/ourstory"}>Our story</Link>
-               <Link to={"/ourstory"}>Write</Link>
+               <Link to={"/write"}>Write</Link>
                {user?.name ? (
                   <>
                   <button onClick={handleLogout}>Logout</button>
