@@ -1,15 +1,19 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import {useNavigate} from 'react-router-dom'
+import { UserDataContext } from "../context/userContext";
 
 const Login = () => {
-  
+  const {loggedInUser,setLoggedInUser} = useContext(UserDataContext)
+
   const navigate = useNavigate()
   let { register, handleSubmit } = useForm();
   async function  handleFormSubmit(data) {
-    // console.log(data)
     let res = await axios.post(`http://localhost:8000/user/login`, data);
+
+    setLoggedInUser(res.data.user)
+     
 
     localStorage.setItem('logedIn', JSON.stringify(res.data))
     // console.log(res.data)

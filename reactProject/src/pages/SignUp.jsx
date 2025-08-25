@@ -23,7 +23,6 @@ const SignUp = () => {
       );
       localStorage.setItem("logedIn", JSON.stringify(res.data));
 
-      console.log(res.data);
       if (res.data.success) {
          navigate("/");
       } else {

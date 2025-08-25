@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -10,11 +10,12 @@ import {
    BookText,
    ChartNoAxesColumnIncreasing,
 } from "lucide-react";
+import { UserDataContext } from "../context/userContext";
 
 const SideBar = () => {
-   const info = localStorage.getItem("logedIn");
-   const user = JSON.parse(info);
-   console.log(user);
+   let { loggedInUser }= useContext(UserDataContext)
+    
+ 
    return (
       <div className=" hidden md:block  text-md bg-white flex flex-col gap-y-5 md:w-[240px] h-[100vh]">
          <div>
@@ -27,14 +28,15 @@ const SideBar = () => {
                   </Link>
                   <Link
                      className=" flex  gap-x-3 items-center"
-                     to={"/ourstory"}
+                     to={loggedInUser? `/user/${loggedInUser._id}/library`: "/login"}
                   >
                      <BookCopy className="w-6 h-6 text-gray-700" />
                      Library
                   </Link>
                   <Link
                      className=" flex  gap-x-3 items-center"
-                     to={`@${user?.name}`}
+                     to={loggedInUser? `/user/${loggedInUser._id}/profile`: "/login"}
+                        
                   >
                      <User className="w-6 h-6 text-gray-700" /> Profile
                   </Link>

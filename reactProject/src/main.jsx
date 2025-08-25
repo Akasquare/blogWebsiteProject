@@ -5,13 +5,16 @@ import { BrowserRouter } from "react-router-dom";
 import "./main.css";
 import "./index.css";
 import App from "./App.jsx";
+import UserProvider from "./context/userContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <>
-    <StrictMode>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </StrictMode>
-  </>
+   <>
+      <StrictMode>
+         <UserProvider>
+            <BrowserRouter>
+               <App />
+            </BrowserRouter>
+         </UserProvider>
+      </StrictMode>
+   </>
 );

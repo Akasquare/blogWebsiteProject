@@ -1,38 +1,116 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { MessageCircleMore, ThumbsUp, Share2, Bookmark } from "lucide-react";
 import ReviewCard from "./ReviewCard";
 import { useForm } from "react-hook-form";
 import ProfileCircle from "./ProfileCircle";
+import { useNavigate } from "react-router-dom";
+import { UserDataContext } from "../context/userContext";
 
 const ViewCard = () => {
-   let { id } = useParams();
+   let { loggedInUser } = useContext(UserDataContext);
    const [post, setPost] = useState(null);
-   let data = localStorage.getItem("logedIn");
-   let userData =JSON.parse(data);
-   console.log(userData)
-   //form
-   let { register, handleSubmit } = useForm();
-   function getFormData(data) {
-      let { comment } = data;
-      console.log(name);
-      console.log(password);
-   }
+   const [user, setUser] = useState(null);
+   const [whatsappLink, setwhatsappLink] = useState(null);
+   const navigate = useNavigate();
+   let { id } = useParams();
 
-   //fetch api
    async function getData() {
       let res = await axios.get(`http://localhost:8000/post/${id}`);
       setPost(res.data.post);
+      if (loggedInUser) {
+         const resUser = await axios.get(
+            `http://localhost:8000/user/${loggedInUser._id}`
+         );
+         setUser(resUser.data.user);
+      }
    }
+
    useEffect(() => {
       getData();
    }, []);
 
+   useEffect(() => {
+      if (post) {
+         const url = `http://localhost:5173/post/${id}`;
+         const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
+            `${post.title} - Read more: ${url}`
+         )}`;
+         setwhatsappLink(whatsappUrl);
+      }
+   }, [post, id]);
+
+   //form
+   let { register, handleSubmit } = useForm();
+
+   async function getFormData(data) {
+      if (loggedInUser) {
+         if (loggedInUser._id === post.author._id) {
+            alert("You can not comment on your own Blog!!!");
+         } else {
+            let res = await axios.post(
+               `http://localhost:8000/post/${id}/comment`,
+               {
+                  comment: data.comment,
+                  author: loggedInUser._id,
+               }
+            );
+
+            if (res.data.success) {
+               getData();
+               alert("review created");
+            }
+         }
+      } else {
+         alert("You must be logged in first");
+         navigate("/login");
+      }
+   }
+   async function likeToPost() {
+      if (loggedInUser) {
+         let res = await axios.post(`http://localhost:8000/post/like`, {
+            userId: loggedInUser._id,
+            postId: post._id,
+         });
+
+         if (res.data.success) {
+            if (res.data.liked) {
+               alert("You liked this blog 👍");
+               getData();
+            } else {
+               alert("You unliked this blog 👎");
+               getData();
+            }
+         }
+      } else {
+         alert("You must be logged in to like");
+      }
+   }
+   async function saveToPost() {
+      if (loggedInUser) {
+         let res = await axios.post(`http://localhost:8000/post/save`, {
+            userId: loggedInUser._id,
+            postId: post._id,
+         });
+
+         if (res.data.success) {
+            getData();
+            if (res.data.saved) {
+               alert("You saved this blog 👍");
+            } else {
+               alert("You unsaved this blog 👎");
+            }
+         }
+      } else {
+         alert("You must be logged in to save!!");
+      }
+   }
+
    return (
       post && (
          <>
-            <div className="px-10  py-5 md:px-40 ">
+            <div className="px-10  py-5 lg:px-40 ">
                <div className=" mx-auto w-[100%]">
                   <h2 className="text-4xl py-8">{post.title}</h2>
                   <div className="flex gap-x-4 pb-6 items-center">
@@ -57,32 +135,57 @@ const ViewCard = () => {
                      <div className="flex gap-x-4">
                         <Link
                            className=" flex  gap-x-2 items-center"
-                           to={"/ourstory"}
+                           to={"#"}
+                           onClick={likeToPost}
+                           title="Like"
                         >
-                           <ThumbsUp className="w-6 h-6 text-gray-700" />
-                           1.7k
+                           {user?.likedPosts
+                              ?.map(String)
+                              .includes(String(id)) ? (
+                              <ThumbsUp className="w-6 h-6 fill-gray-800 text-gray-900" />
+                           ) : (
+                              <ThumbsUp className="w-6 h-6 text-gray-700" />
+                           )}
+
+                           {post.likes.length}
                         </Link>
-                        <Link
-                           className=" flex  gap-x-2 items-center"
-                           to={"/ourstory"}
-                        >
-                           <MessageCircleMore className="w-6 h-6 text-gray-700" />
-                           112
+                        <Link className=" flex  gap-x-2 items-center" to={"#"}>
+                           <MessageCircleMore
+                              className="w-6 h-6 text-gray-700"
+                              onClick={() => {
+                                 document
+                                    .getElementById('comments')
+                                    ?.scrollIntoView({ behavior: "smooth" });
+                              }}
+                           />
+                           {post.reviews.length}
                         </Link>
                      </div>
                      <div className="flex gap-x-4">
                         <Link
                            className=" flex  gap-x-2 items-center"
-                           to={"/ourstory"}
+                           onClick={saveToPost}
+                           to={"#"}
+                           title="Save Post"
                         >
-                           <Bookmark className="w-6 h-6 text-gray-700" />
+                           {user?.savedPosts
+                              ?.map(String)
+                              .includes(String(id)) ? (
+                              <Bookmark className="w-6 h-6 fill-gray-800 text-gray-900" />
+                           ) : (
+                              <Bookmark className="w-6 h-6 font-thin text-gray-700" />
+                           )}
                         </Link>
-                        <Link
-                           className=" flex  gap-x-2 items-center"
-                           to={"/ourstory"}
-                        >
-                           <Share2 className="w-6 h-6 text-gray-700" />
-                        </Link>
+                        {whatsappLink && (
+                           <a
+                              className="flex gap-x-2 items-center"
+                              href={whatsappLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                           >
+                              <Share2 className="w-6 h-6 text-gray-700" />
+                           </a>
+                        )}
                      </div>
                   </div>
                   <br />
@@ -91,14 +194,17 @@ const ViewCard = () => {
                   <h2></h2>
                   <p className="py-5 text-lg">{post.description}</p>
                </div>
-               <div>
+               <div id="comments" >
                   <h1 className="py-5 text-lg">Responses</h1>
-                  <ProfileCircle
+                  {loggedInUser && (
+                     <ProfileCircle
                         size="h-10 w-10"
-                        image={post.author.profileImage}
-                        name={post.author.name}
+                        image={loggedInUser.profileImage}
+                        name={loggedInUser.name}
                      />
-                  <div className="flex gap-x-4 pb-6 items-center"></div>
+                  )}
+
+                  <div id="comments" className="flex gap-x-4 pb-6 items-center"></div>
                   <form onSubmit={handleSubmit(getFormData)} action="">
                      <label htmlFor="comment" className="">
                         Comments
@@ -111,6 +217,7 @@ const ViewCard = () => {
                         id="comment"
                         cols=""
                         row="10"
+                        required
                      ></textarea>
                      <div className="py-4">
                         <button className="border px-4 py-2 rounded-3xl hover:bg-[#242424] hover:text-white">
@@ -119,8 +226,14 @@ const ViewCard = () => {
                      </div>
                   </form>
                </div>
-               <div>
-                  <ReviewCard post={post} />
+               <div className="flex flex-col gap-y-2">
+                  {post.reviews && post.reviews.length > 0 ? (
+                     post.reviews.map((itm) => (
+                        <ReviewCard key={itm._id} id={id} review={itm} />
+                     ))
+                  ) : (
+                     <p>No Comment Yet</p>
+                  )}
                </div>
             </div>
          </>

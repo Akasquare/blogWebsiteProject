@@ -18,11 +18,11 @@ const MainContent = () => {
           
           post && post.map((itm) => {
             return (
-              <>
-                <div className="pb-4"> 
-                  <Card data={itm} />
+              
+                <div key={itm._id} className="pb-4"> 
+                  <Card  data={itm} />
                 </div>
-              </>
+               
             );
           })}
         

@@ -1,7 +1,8 @@
-import React ,{useState, useEffect}from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Button from "./Button";
 import { Link } from "react-router-dom";
 import ProfileCircle from "./ProfileCircle";
+import { UserDataContext } from "../context/userContext";
 
 const headerStyle = {
    padding: "0 30px 0 10px",
@@ -10,7 +11,7 @@ const headerStyle = {
    position: "fixed",
    top: "0",
    width: "100%",
-   height: "13vh",
+   height: "10vh",
    justifyContent: "space-between",
    color: "#242424",
    backgroundColor: "#ffffffff",
@@ -26,18 +27,11 @@ const headerStyle = {
 //   textDecoration: "none !important",
 // };
 const Header = () => {
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    const info = localStorage.getItem("logedIn");
-    if (info) {
- 
-      setUser(JSON.parse(info).user);
-
-    }
-  }, []);
-  
+   const [user, setUser] = useState(null);
+   const { loggedInUser } = useContext(UserDataContext);
+   
    const handleLogout = () => {
-      localStorage.removeItem("logedIn"); 
+      localStorage.removeItem("logedIn");
       setUser(null);
       window.location.href = "/";
    };
@@ -50,14 +44,19 @@ const Header = () => {
             <div className="flex gap-x-5 text-sm items-center">
                <Link to={"/ourstory"}>Our story</Link>
                <Link to={"/write"}>Write</Link>
-               {user?.name ? (
+               {loggedInUser ? (
                   <>
-                  <button onClick={handleLogout}>Logout</button>
-                  <Link className=" flex  gap-x-3 items-center" to={ `@${user.name}`}>
-                  <ProfileCircle size='h-12 w-12' image={user.profileImage}/>
-                  </Link>
+                     <button onClick={handleLogout}>Logout</button>
+                     <Link
+                        className=" flex  gap-x-3 items-center"
+                        to={`/user/${loggedInUser._id}`}
+                     >
+                        <ProfileCircle
+                           size="h-12 w-12"
+                           image={loggedInUser.profileImage}
+                        />
+                     </Link>
                   </>
-
                ) : (
                   <>
                      <Link to="/signup">Sign Up</Link>

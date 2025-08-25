@@ -1,5 +1,4 @@
-import React from "react";
-import Header from "./components/Header";
+ 
 import { Link } from "react-router-dom";
 
 const OurStory = () => {
@@ -52,7 +51,7 @@ const OurStory = () => {
             <span>a</span>
           </div>
         </Link>
-        <Link to="#">
+        <Link to="/write">
           <div className="flex px-14 border-t justify-between py-10 text-5xl md:text-7xl lg:text-7xl leading-25 tracking-tight hover:text-black hover:bg-white duration-400">
             <span>Start writing</span>
             <span>a</span>
