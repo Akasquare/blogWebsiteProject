@@ -4,11 +4,22 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { UserDataContext } from "../context/userContext";
 
-const ReviewCard = ({ id, review }) => {
+const ReviewCard = ({ id, review ,onDelete }) => {
+
+
    async function deleteReviw() {
-      const resData = await axios.delete(
-         `http://localhost:8000/comment/${review._id}`
-      );
+      try{
+         const resData = await axios.delete(
+            `http://localhost:8000/comment/${review._id}`
+         );
+         if (resData.data.success) {
+            // ✅ call parent callback to update UI
+            onDelete(review._id);
+         }
+
+      }catch (err) {
+         console.error(err);
+      }
        
    }
    let { loggedInUser } = useContext(UserDataContext);
@@ -36,7 +47,7 @@ const ReviewCard = ({ id, review }) => {
                   })}
                </p>
                {loggedInUser && loggedInUser._id === review.author._id && (
-                  <Link onClick={deleteReviw} to={`/post/${id}`}>
+                  <Link onClick={deleteReviw} >
                      <Button text="delete" />
                   </Link>
                )}

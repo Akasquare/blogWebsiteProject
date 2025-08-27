@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
-import { MessageCircleMore, ThumbsUp, Share2, Bookmark } from "lucide-react";
+import { MessageCircleMore, ThumbsUp, Share2, Bookmark, Filter } from "lucide-react";
 import ReviewCard from "./ReviewCard";
 import { useForm } from "react-hook-form";
 import ProfileCircle from "./ProfileCircle";
@@ -16,13 +16,16 @@ const ViewCard = () => {
    const navigate = useNavigate();
    let { id } = useParams();
 
+   // console.log(user)
    async function getData() {
       let res = await axios.get(`http://localhost:8000/post/${id}`);
       setPost(res.data.post);
+
       if (loggedInUser) {
          const resUser = await axios.get(
             `http://localhost:8000/user/${loggedInUser._id}`
          );
+         // console.log(resUser.data.user)
          setUser(resUser.data.user);
       }
    }
@@ -42,7 +45,7 @@ const ViewCard = () => {
    }, [post, id]);
 
    //form
-   let { register, handleSubmit } = useForm();
+   let { register, handleSubmit, reset } = useForm();
 
    async function getFormData(data) {
       if (loggedInUser) {
@@ -60,6 +63,7 @@ const ViewCard = () => {
             if (res.data.success) {
                getData();
                alert("review created");
+               reset();
             }
          }
       } else {
@@ -154,7 +158,7 @@ const ViewCard = () => {
                               className="w-6 h-6 text-gray-700"
                               onClick={() => {
                                  document
-                                    .getElementById('comments')
+                                    .getElementById("comments")
                                     ?.scrollIntoView({ behavior: "smooth" });
                               }}
                            />
@@ -194,7 +198,7 @@ const ViewCard = () => {
                   <h2></h2>
                   <p className="py-5 text-lg">{post.description}</p>
                </div>
-               <div id="comments" >
+               <div id="comments">
                   <h1 className="py-5 text-lg">Responses</h1>
                   {loggedInUser && (
                      <ProfileCircle
@@ -204,7 +208,10 @@ const ViewCard = () => {
                      />
                   )}
 
-                  <div id="comments" className="flex gap-x-4 pb-6 items-center"></div>
+                  <div
+                     id="comments"
+                     className="flex gap-x-4 pb-6 items-center"
+                  ></div>
                   <form onSubmit={handleSubmit(getFormData)} action="">
                      <label htmlFor="comment" className="">
                         Comments
@@ -228,8 +235,8 @@ const ViewCard = () => {
                </div>
                <div className="flex flex-col gap-y-2">
                   {post.reviews && post.reviews.length > 0 ? (
-                     post.reviews.map((itm) => (
-                        <ReviewCard key={itm._id} id={id} review={itm} />
+                     [...post.reviews].reverse().map((itm) => (
+                        <ReviewCard key={itm._id} id={id} review={itm} onDelete={(id) =>{ setPost((prev)=>({...prev, reviews: post.reviews.filter((r)=>r._id !== id) }))}} />
                      ))
                   ) : (
                      <p>No Comment Yet</p>

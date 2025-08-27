@@ -3,7 +3,7 @@ import Button from "./Button";
 import { Link } from "react-router-dom";
 import ProfileCircle from "./ProfileCircle";
 import { UserDataContext } from "../context/userContext";
-
+import { SquarePen } from "lucide-react";
 const headerStyle = {
    padding: "0 30px 0 10px",
    display: "flex",
@@ -29,7 +29,7 @@ const headerStyle = {
 const Header = () => {
    const [user, setUser] = useState(null);
    const { loggedInUser } = useContext(UserDataContext);
-   
+
    const handleLogout = () => {
       localStorage.removeItem("logedIn");
       setUser(null);
@@ -42,14 +42,14 @@ const Header = () => {
                <Link to={"/"}>Medium</Link>
             </h2>
             <div className="flex gap-x-5 text-sm items-center">
-               <Link to={"/ourstory"}>Our story</Link>
+               <SquarePen className="w-6 h-6 text-gray-700" />
                <Link to={"/write"}>Write</Link>
                {loggedInUser ? (
                   <>
                      <button onClick={handleLogout}>Logout</button>
                      <Link
                         className=" flex  gap-x-3 items-center"
-                        to={`/user/${loggedInUser._id}`}
+                        to={`/user/${loggedInUser._id}/profile`}
                      >
                         <ProfileCircle
                            size="h-12 w-12"

@@ -8,7 +8,7 @@ import {
    User,
    BookCopy,
    BookText,
-   ChartNoAxesColumnIncreasing,
+   GalleryHorizontalEnd ,
 } from "lucide-react";
 import { UserDataContext } from "../context/userContext";
 
@@ -42,7 +42,7 @@ const SideBar = () => {
                   </Link>
                   <Link
                      className=" flex  gap-x-3 items-center"
-                     to={"/ourstory"}
+                     to={"#"}
                   >
                      <BookText className="w-6 h-6 text-gray-700" />
                      Stories
@@ -51,8 +51,8 @@ const SideBar = () => {
                      className=" flex  gap-x-3 items-center"
                      to={"/ourstory"}
                   >
-                     <ChartNoAxesColumnIncreasing className="w-6 h-6 text-gray-700" />
-                     Stats
+                     <GalleryHorizontalEnd  className="w-6 h-6 text-gray-700" />
+                     Our Story
                   </Link>
                </div>
             </div>

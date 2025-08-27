@@ -6,7 +6,7 @@ import ProfileCircle from "../components/ProfileCircle";
 import { Outlet } from "react-router-dom";
 import { UserDataContext } from "../context/userContext";
 
-const Profile = () => {
+const Library = () => {
    let { loggedInUser } = useContext(UserDataContext);
    const [user, setUser] = useState(null);
    const { id } = useParams();
@@ -31,7 +31,7 @@ const Profile = () => {
 
    return (
       user && (
-         <div className="px-30 flex flex-col">
+         <div className="h-[80vh] md:px-30 flex flex-col">
             <div className="px-10 pt-10">
                <p className="text-4xl pb-5 text-zinc-800 font-bold">Your library</p>
 
@@ -64,4 +64,4 @@ const Profile = () => {
    );
 };
 
-export default Profile;
+export default Library;

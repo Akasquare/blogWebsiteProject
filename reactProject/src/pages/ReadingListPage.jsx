@@ -5,14 +5,14 @@ import axios from "axios";
 import ProfileCircle from "../components/ProfileCircle";
 import { Outlet } from "react-router-dom";
 import { UserDataContext } from "../context/userContext";
+import Card from "../components/Card";
 
-const Profile = () => {
+const ReadingListPage = () => {
    let { loggedInUser } = useContext(UserDataContext);
    const [user, setUser] = useState(null);
-   // console.log(loggedInUser);
-   console.log(user)
    
-   // console.log(user)
+   console.log(user)
+  
    const { id } = useParams();
 
    if (!loggedInUser || loggedInUser._id !== id) {
@@ -36,8 +36,10 @@ const Profile = () => {
 
  
    return (
-      user && ( 
-         <div className="h-[80vh] md:px-30">
+      user && (
+         
+         
+         <div className="md:px-30">
             <div className="px-10 pt-10">
             <div className="pb-10 text-3xl">
                <ProfileCircle
@@ -45,34 +47,28 @@ const Profile = () => {
                   image={user.profileImage}
                   name={user.name}
                />
+               {/* {user.savedPosts.length} */}
             </div>
-            <div className="flex border-b border-gray-300 text-gray-600 flex-start gap-x-5">
-               <Link
-                  className=" flex pb-3 focus:border-b focus:text-black  gap-x-3 items-center"
-                  to={`home`}
-               >
-                  Home
-               </Link>
-               <Link
-                  className=" flex pb-3 focus:border-b gap-x-3 items-center"
-                  to={"list"}
-               >
-                  List
-               </Link>
-               <Link
-                  className=" flex pb-3 focus:border-b gap-x-3 items-center"
-                  to={"about"}
-               >
-                  About
-               </Link>
+            <div className="text-4xl font-bold pb-5 border-b border-zinc-300">
+                <h1>
+                Reading list
+                </h1>
             </div>
+            { user.Posts.map((itm) => {
+               return (
+                  <>
+                     <div className="pb-4">
+                        
+                        <Card data={itm} />
+                     </div>
+                  </>
+               );
+            })}
             </div>
-            <div>
-               <Outlet context={user} />
-            </div>
+             
          </div>
       )
    );
 };
 
-export default Profile;
+export default ReadingListPage;

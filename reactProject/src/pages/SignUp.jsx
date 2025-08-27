@@ -24,7 +24,8 @@ const SignUp = () => {
       localStorage.setItem("logedIn", JSON.stringify(res.data));
 
       if (res.data.success) {
-         navigate("/");
+         alert("signed Up successfully")
+         navigate("/login");
       } else {
          alert("email exist! use new email");
       }

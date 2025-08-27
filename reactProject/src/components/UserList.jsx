@@ -6,7 +6,7 @@ const UserList = () => {
    let user = useOutletContext();
   console.log(user)
    if (!user || !user.savedPosts || user.savedPosts.length === 0) {
-      return <h1>No saved post yet</h1>;
+      return <h1 className="px-10 pt-20 text-4xl flex items-center justify-center text-zinc-300">No saved post yet</h1>;
    }
 
    return (

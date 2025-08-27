@@ -44,6 +44,22 @@ app.get("/user/:id", async (req, res) => {
       res.status(500).json({ success: false, message: "Something went wrong" });
    }
 });
+app.get("/userprofile/:id", async (req, res) => {
+   try {
+      let posts = await Post.find({ author: req.params.id }).populate("author");
+
+      if (!posts || posts.length === 0) {
+         return res.json({ message: "No posts found", posts: [] });
+      }
+      res.json({
+         message: "Data fetched",
+         Posts: posts,
+      });
+   } catch (err) {
+      console.error(err);
+      res.status(500).json({ success: false, message: "Something went wrong" });
+   }
+});
 app.post("/user/:id/bioedit", async (req, res) => {
    try {
       const { bio } = req.body;
@@ -76,7 +92,7 @@ app.post("/user/signup", upload.single("profileImage"), async (req, res) => {
    try {
       const { name, email, password } = req.body;
 
-      // Cloudinary file URL will be in req.file.path
+      
       const profileImage = req.file
          ? req.file.path
          : "https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
@@ -112,7 +128,7 @@ app.post("/user/login", async (req, res) => {
    let user = await User.findOne({
       email: req.body.email,
       password: req.body.password,
-   });
+   }).populate("savedPosts");
 
    if (!user) {
       res.json({
@@ -314,11 +330,8 @@ app.get("/post", async (req, res) => {
 });
 app.get("/userprofile/:id", async (req, res) => {
    const { id } = req.params;
-   let post = await Post.find({ author: id }).populate(
-      "author",
-      "name email profileImage"
-   );
-   // console.log(post)
+   let post = await Post.find({ author: id }).populate("author");
+
    res.json({
       message: "Data fetched",
       post: post,

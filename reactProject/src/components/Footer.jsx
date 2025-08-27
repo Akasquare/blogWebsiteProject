@@ -16,14 +16,12 @@ const Footer = () => {
   return (
     <>
       <div className="" style={footerStyle}>
-        <Link to={"/ourstory"}>About</Link>
-        <Link to={"/ourstory"}>Help</Link>
-        <Link to={"/ourstory"}>Terms</Link>
-        <Link to={"/signup"}>Privacy</Link>
-        <Link to={"/signup"}>Press</Link>
-        <Link to={"/signup"}>Blog</Link>
-        <Link to={"/signup"}>Privacy</Link>
-        <Link to={"/signup"}>Rules</Link>
+        <Link to={"/about"}>About</Link>
+        <Link to={"/help"}>Help</Link>
+        <Link to={"/terms"}>Terms</Link>
+        <Link to={"/privacy"}>Privacy</Link>
+        
+        <Link to={"/rules"}>Rules</Link>
       </div>
     </>
   );
