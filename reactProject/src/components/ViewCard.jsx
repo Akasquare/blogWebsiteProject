@@ -16,7 +16,7 @@ const ViewCard = () => {
    const navigate = useNavigate();
    let { id } = useParams();
 
-   // console.log(user)
+   // console.log(post)
    async function getData() {
       let res = await axios.get(`http://localhost:8000/post/${id}`);
       setPost(res.data.post);
@@ -194,7 +194,7 @@ const ViewCard = () => {
                   </div>
                   <br />
 
-                  <img className=" rounded-xl" src={post.image} alt="" />
+                  <img className=" rounded-xl" src={post.image.url} alt="" />
                   <h2></h2>
                   <p className="py-5 text-lg">{post.description}</p>
                </div>

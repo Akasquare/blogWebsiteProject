@@ -7,7 +7,10 @@ let UserSchema = mongoose.Schema({
       require: true,
    },
    password: String,
-   profileImage: String,
+   profileImage: {
+      url: String,    
+      name: String   
+   },
    bio: {
       type: String,
       default: "hello !!!",

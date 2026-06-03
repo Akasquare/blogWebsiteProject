@@ -72,6 +72,7 @@ const Write = () => {
                {...register("image")}
                className="border rounded-3xl border-blue-600 p-2 w-full"
                type="file"
+               required
             />
          </div>
 

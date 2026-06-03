@@ -31,7 +31,7 @@ const Library = () => {
 
    return (
       user && (
-         <div className="h-[80vh] md:px-30 flex flex-col">
+         <div className="min-h-screen md:px-30 flex flex-col">
             <div className="px-10 pt-10">
                <p className="text-4xl pb-5 text-zinc-800 font-bold">Your library</p>
 

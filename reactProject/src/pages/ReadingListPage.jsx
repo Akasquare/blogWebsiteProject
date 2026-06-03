@@ -54,7 +54,7 @@ const ReadingListPage = () => {
                 Reading list
                 </h1>
             </div>
-            { user.Posts.map((itm) => {
+            { user.savedPosts.map((itm) => {
                return (
                   <>
                      <div className="pb-4">

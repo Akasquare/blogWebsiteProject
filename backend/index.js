@@ -89,13 +89,16 @@ app.post("/user/:id/bioedit", async (req, res) => {
 });
 
 app.post("/user/signup", upload.single("profileImage"), async (req, res) => {
+    
    try {
       const { name, email, password } = req.body;
 
       
-      const profileImage = req.file
-         ? req.file.path
-         : "https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
+      const profileImage =  {
+          url: req.file.path,       // cloudinary/local file path
+          name: req.file.filename // multer provides original filename
+        }
+       
 
       let user = await User.findOne({
          email: req.body.email,

@@ -13,7 +13,10 @@ let PostSchema = mongoose.Schema({
          ref: "User",
       },
    ],
-   image: { type: String },
+   image: {
+      url: String,    
+      name: String   
+   },
    createdAt: {
       type: Date,
       default: Date.now,

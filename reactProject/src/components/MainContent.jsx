@@ -19,7 +19,7 @@ const MainContent = () => {
           post && post.map((itm) => {
             return (
               
-                <div key={itm._id} className="pb-4"> 
+                <div key={itm._id} className="pb-4 px-30"> 
                   <Card  data={itm} />
                 </div>
                

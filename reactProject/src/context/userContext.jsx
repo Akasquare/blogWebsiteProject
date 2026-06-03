@@ -5,7 +5,7 @@ export const UserDataContext = createContext();
 export default function UserProvider({children}) {
     const [loggedInUser,setLoggedInUser ] = useState(null)
   return (
-    <UserDataContext.Provider value={{loggedInUser,setLoggedInUser}}>
+    <UserDataContext.Provider value={{loggedInUser, setLoggedInUser}}>
         {children}
     </UserDataContext.Provider>
   )

@@ -50,6 +50,7 @@ const SignUp = () => {
                      type="text"
                      id="name"
                      placeholder="Enter name"
+                     required
                   />
                </div>
                <div className="flex items-center gap-x-11 pb-5">
@@ -60,6 +61,7 @@ const SignUp = () => {
                      type="email"
                      id="email"
                      placeholder="Enter email"
+                     required
                   />
                </div>
                <div className="flex items-center gap-x-4 pb-5">
@@ -70,6 +72,7 @@ const SignUp = () => {
                      type="password"
                      id="password"
                      placeholder="Enter password"
+                     required
                   />
                </div>
                <div className="flex items-center gap-x-1 pb-5">
@@ -80,6 +83,7 @@ const SignUp = () => {
                      type="file"
                      id="profileImage"
                      placeholder="profileImage link"
+                     required
                   />
                </div>
                <div className="flex justify-center">

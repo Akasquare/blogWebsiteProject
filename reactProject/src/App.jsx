@@ -26,7 +26,7 @@ function App() {
    return (
       <>
          <Header />
-         <div className=" pt-[10vh] ">
+         <div className=" pt-[10vh] h-[100%] ">
             <Routes>
                <Route path={"/"} element={<Home />}>
                   <Route index element={<MainContent />} />

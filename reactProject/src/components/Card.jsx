@@ -71,7 +71,7 @@ const Card = ({ data }) => {
                {data?.image && (
                   <img
                      className="h-30 w-40 rounded-lg"
-                     src={data.image}
+                     src={data.image.url}
                      alt=""
                   />
                )}

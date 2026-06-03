@@ -29,6 +29,7 @@ const headerStyle = {
 const Header = () => {
    const [user, setUser] = useState(null);
    const { loggedInUser } = useContext(UserDataContext);
+   console.log(loggedInUser)
 
    const handleLogout = () => {
       localStorage.removeItem("logedIn");
@@ -39,7 +40,7 @@ const Header = () => {
       <>
          <div style={headerStyle}>
             <h2 className="text-3xl font-bold">
-               <Link to={"/"}>Medium</Link>
+               <Link to={"/"}>BlogStack</Link>
             </h2>
             <div className="flex gap-x-5 text-sm items-center">
                <SquarePen className="w-6 h-6 text-gray-700" />

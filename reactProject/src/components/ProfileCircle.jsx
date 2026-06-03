@@ -5,7 +5,7 @@ const ProfileCircle = (props) => {
     <div className="flex  gap-x-3  items-center">
                <img  
                   className= {` ${props.size} rounded-full`}
-                  src={props.image}
+                  src={props.image.url}
                   alt="Profile image"
                />
                <h1>{props.name}</h1>

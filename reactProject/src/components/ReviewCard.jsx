@@ -29,7 +29,7 @@ const ReviewCard = ({ id, review ,onDelete }) => {
          <div className="flex gap-x-4 pb-4 items-center">
             <img
                className=" w-6 h-6 rounded-3xl"
-               src={review.author.profileImage}
+               src={review.author.profileImage.url}
                alt=""
             />
             <h1>{review.author.name}</h1>
